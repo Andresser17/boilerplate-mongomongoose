@@ -33,6 +33,7 @@ const createAndSavePerson = (done) => {
     done(null, data);
   });
 };
+// createAndSavePerson((err, data) => console.log(err, data))
 
 const createManyPeople = (arrayOfPeople, done) => {
   Person.insertMany(arrayOfPeople, (err, data) => {
@@ -49,10 +50,16 @@ const findPeopleByName = async (personName, done) => {
     done(null, data);
   });
 };
+// findPeopleByName("Alejandro", (err, data) => console.log(err, data))
 
 const findOneByFood = (food, done) => {
-  done(null /*, data*/);
+  Person.findOne({ favoriteFoods: food }, (err, data) => {
+    if (err) return done(err);
+
+    done(null, data);
+  });
 };
+// findOneByFood("Hallaca", (err, data) => console.log(err, data))
 
 const findPersonById = (personId, done) => {
   done(null /*, data*/);

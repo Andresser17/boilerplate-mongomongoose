@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config()
 const mongoose = require("mongoose");
 
 // Database Connection
@@ -62,8 +62,13 @@ const findOneByFood = (food, done) => {
 // findOneByFood("Hallaca", (err, data) => console.log(err, data))
 
 const findPersonById = (personId, done) => {
-  done(null /*, data*/);
+  Person.findById({ _id: personId }, (err, data) => {
+    if (err) return done(err);
+
+    done(null, data);
+  });
 };
+// findPersonById("61ba8ad1de9596108feaa0b8", (err, data) => console.log(err, data))
 
 const findEditThenSave = (personId, done) => {
   const foodToAdd = "hamburger";

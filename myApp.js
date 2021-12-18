@@ -23,7 +23,7 @@ const Person = mongoose.model("Person", personSchema);
 
 const createAndSavePerson = (done) => {
   const person = new Person({
-    name: "Alejandro",
+    name: "Carlos",
     age: 20,
     favoriteFoods: ["Hallaca", "Ice Cream", "Burguer", "Cachapa", "Tequeños"],
   });
@@ -123,9 +123,21 @@ const removeManyPeople = (done) => {
 
 const queryChain = (done) => {
   const foodToSearch = "burrito";
+  const chain = Person.find({ favoriteFoods: foodToSearch })
+    .sort({
+      name: "asc",
+    })
+    .limit(2)
+    .select("-age");
 
-  done(null /*, data*/);
+  // Execute query
+  chain.exec((err, data) => {
+    if (err) return done(err);
+
+    done(null, data);
+  });
 };
+// queryChain((err, data) => console.log(err, data));
 
 /** **Well Done !!**
 /* You completed these challenges, let's go celebrate !

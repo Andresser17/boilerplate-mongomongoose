@@ -6,6 +6,7 @@ const db = async () =>
   await mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false 
   });
 
 db().catch((err) => console.log(err));
@@ -72,7 +73,7 @@ const findPersonById = (personId, done) => {
 
 const findEditThenSave = (personId, done) => {
   findPersonById(personId, (err, data) => {
-    data.favoriteFoods.push("hamburger")
+    data.favoriteFoods.push("hamburger");
 
     data.save((err, data) => {
       if (err) return done(err);
@@ -82,14 +83,23 @@ const findEditThenSave = (personId, done) => {
   });
 };
 // findEditThenSave("61ba8ad1de9596108feaa0b8", (err, data) =>
-//   findPeopleByName("Alejandro", (err, data) => console.log(err, data))
+// findPeopleByName("Alejandro", (err, data) => console.log(err, data));
 // );
 
 const findAndUpdate = (personName, done) => {
   const ageToSet = 20;
+  Person.findOneAndUpdate(
+    { name: personName },
+    { age: ageToSet },
+    { new: true },
+    (err, data) => {
+      if (err) return data(err);
 
-  done(null /*, data*/);
+      done(null, data);
+    }
+  );
 };
+// findAndUpdate("Alejandro", (err, data) => console.log(err, data));
 
 const removeById = (personId, done) => {
   done(null /*, data*/);

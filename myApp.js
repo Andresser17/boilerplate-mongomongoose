@@ -6,7 +6,7 @@ const db = async () =>
   await mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: false 
+    useFindAndModify: false,
   });
 
 db().catch((err) => console.log(err));
@@ -102,8 +102,13 @@ const findAndUpdate = (personName, done) => {
 // findAndUpdate("Alejandro", (err, data) => console.log(err, data));
 
 const removeById = (personId, done) => {
-  done(null /*, data*/);
+  Person.findByIdAndRemove({ _id: personId }, (err, data) => {
+    if (err) return data(err);
+
+    done(null, data);
+  });
 };
+// removeById("61ba8aefc580e010b3476e51", (err, data) => console.log(err, data));
 
 const removeManyPeople = (done) => {
   const nameToRemove = "Mary";
